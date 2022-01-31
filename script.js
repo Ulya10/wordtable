@@ -1,25 +1,25 @@
 const allWordsInit = 'человек время год дело жизнь рука день слово глаз лицо место дом работа друг сторона голова вопрос сила мир случай ребенок город вид страна конец бог';
-
+const alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
 const allWords = allWordsInit.split(' ');
 console.log(allWords);
+const playground = document.querySelector('.playground');
+
 
 const amount = 10;
 
 let field = [];
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 10; i++) {
     field[i] = [];
-    for (let j = 0; j < 20; j++) {
+    for (let j = 0; j < 10; j++) {
         field[i][j] = 0;
     }
 }
 
-
-
 for (let a = 0; a < amount; a++) {
 
-let number = Math.floor(Math.random() * allWords.length);
-//console.log(number, allWords.length);
-let word = allWords[number];
+    let number = Math.floor(Math.random() * allWords.length);
+    //console.log(number, allWords.length);
+    let word = allWords[number];
 
     let count = 0;
 
@@ -29,8 +29,8 @@ let word = allWords[number];
 
         repos = false;
 
-        let posI = Math.floor(Math.random() * 20);
-        let posJ = Math.floor(Math.random() * 20);
+        let posI = Math.floor(Math.random() * 10);
+        let posJ = Math.floor(Math.random() * 10);
         let direction = Math.floor(Math.random() * 2); //0 - to right, 1 - to bottom
 
         console.log(posI, posJ, direction, word);
@@ -54,7 +54,7 @@ let word = allWords[number];
                 allWords.splice(number, 1); //удаление слова из исходного массива
             }
 
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 10; i++) {
                 console.log(field[i]);
             }
 
@@ -81,7 +81,7 @@ let word = allWords[number];
                 allWords.splice(number, 1); //удаление слова из исходного массива
             }
 
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 10; i++) {
                 console.log(field[i]);
             }
 
@@ -91,5 +91,25 @@ let word = allWords[number];
 
         }
     }
+
+    if (count == 10) {
+        allWords.splice(number, 1);
+        a--;
+    }
+
     console.log(allWords, allWords.length);
+
+}
+
+for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+        let block = document.createElement('div');
+        block.classList.add('block');
+        if (field[i][j]==0){
+            block.textContent = alphabet[(Math.floor(Math.random()*alphabet.length))];
+        } else {
+        block.textContent = field[i][j];    
+        }
+        playground.append(block);
+    }
 }
