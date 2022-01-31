@@ -4,43 +4,39 @@ const allWords = allWordsInit.split(' ');
 console.log(allWords);
 const playground = document.querySelector('.playground');
 
+const amount = 10; //количество слов
+const size = 10; //размер поля в клетках
 
-const amount = 10;
-
-let field = [];
-for (let i = 0; i < 10; i++) {
+let field = []; //массив значений в клетках
+for (let i = 0; i < size; i++) {
     field[i] = [];
-    for (let j = 0; j < 10; j++) {
+    for (let j = 0; j < size; j++) {
         field[i][j] = 0;
     }
 }
 
 for (let a = 0; a < amount; a++) {
-
-    let number = Math.floor(Math.random() * allWords.length);
-    //console.log(number, allWords.length);
+    let number = Math.floor(Math.random() * allWords.length); //номер слова из массива
     let word = allWords[number];
-
-    let count = 0;
-
-    let repos;
+    let count = 0; // количество попыток добавления
+    let repos; // если слово не удалось вставить и нужно менять координаты
 
     while (count < 10) {
 
         repos = false;
 
-        let posI = Math.floor(Math.random() * 10);
-        let posJ = Math.floor(Math.random() * 10);
-        let direction = Math.floor(Math.random() * 2); //0 - to right, 1 - to bottom
+        let posI = Math.floor(Math.random() * size);
+        let posJ = Math.floor(Math.random() * size);
+        let direction = Math.floor(Math.random() * 2); //0 - направо, 1 - вниз
 
-        console.log(posI, posJ, direction, word);
+        //console.log(posI, posJ, direction, word);
 
         if (direction == 0) {
             for (let k = posJ; k < posJ + word.length; k++) {
-                if (field[posI][k] == undefined || field[posI][k] !== 0) {
+                if (field[posI][k] == undefined || field[posI][k] !== 0) { //почему-то для другого направления такая первая часть условия не работает, пишет cannot read properties of undefined, хотя зачем их читать, если первая часть undefined и дает true
                     count++;
                     repos = true; //закончить цикл и поменять позицию
-                    console.log(count, repos);
+                    //console.log(count, repos);
                     break;
                 }
             }
@@ -51,22 +47,16 @@ for (let a = 0; a < amount; a++) {
                     field[posI][k] = word[posInsert];
                     posInsert++;
                 }
-                allWords.splice(number, 1); //удаление слова из исходного массива
-            }
-
-            for (let i = 0; i < 10; i++) {
-                console.log(field[i]);
-            }
-
-            if (repos == false) {
+                //allWords.splice(number, 1); //удаление слова из исходного массива
                 break;
             }
+
         } else {
             for (let k = posI; k < posI + word.length; k++) {
-                if (field[posI][k] == undefined || field[k][posJ] !== 0) {
+                if (k>=size || field[k][posJ]!== 0) {
                     count++;
                     repos = true;
-                    console.log(count, repos);
+                    //console.log(count, repos);
                     break;
                 }
             }
@@ -76,39 +66,31 @@ for (let a = 0; a < amount; a++) {
                 for (let k = posI; k < posI + word.length; k++) {
                     field[k][posJ] = word[posInsert];
                     posInsert++;
-
                 }
-                allWords.splice(number, 1); //удаление слова из исходного массива
-            }
-
-            for (let i = 0; i < 10; i++) {
-                console.log(field[i]);
-            }
-
-            if (repos == false) {
+                //allWords.splice(number, 1); 
                 break;
             }
-
         }
     }
 
     if (count == 10) {
-        allWords.splice(number, 1);
         a--;
     }
 
-    console.log(allWords, allWords.length);
-
+    allWords.splice(number, 1);//удаление слова из исходного массива
+    //console.log(allWords, allWords.length); //оставшиеся слова
 }
 
-for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+for (let i = 0; i < size; i++) {
+    console.log(field[i]);
+    for (let j = 0; j < size; j++) {
         let block = document.createElement('div');
         block.classList.add('block');
         if (field[i][j]==0){
             block.textContent = alphabet[(Math.floor(Math.random()*alphabet.length))];
         } else {
-        block.textContent = field[i][j];    
+        block.textContent = field[i][j];
+        block.style.color="red";    
         }
         playground.append(block);
     }
