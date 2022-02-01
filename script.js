@@ -29,14 +29,14 @@ for (let a = 0; a < amount; a++) {
         let posJ = Math.floor(Math.random() * size);
         let direction = Math.floor(Math.random() * 2); //0 - направо, 1 - вниз
 
-        //console.log(posI, posJ, direction, word);
+        console.log(posI, posJ, direction, word);
 
         if (direction == 0) {
             for (let k = posJ; k < posJ + word.length; k++) {
                 if (field[posI][k] == undefined || field[posI][k] !== 0) { //почему-то для другого направления такая первая часть условия не работает, пишет cannot read properties of undefined, хотя зачем их читать, если первая часть undefined и дает true
                     count++;
                     repos = true; //закончить цикл и поменять позицию
-                    //console.log(count, repos);
+                    console.log(count, repos);
                     break;
                 }
             }
@@ -53,10 +53,10 @@ for (let a = 0; a < amount; a++) {
 
         } else {
             for (let k = posI; k < posI + word.length; k++) {
-                if (k>=size || field[k][posJ]!== 0) {
+                if (field[k][posJ] == undefined || field[k][posJ]!== 0) {
                     count++;
                     repos = true;
-                    //console.log(count, repos);
+                    console.log(count, repos);
                     break;
                 }
             }
@@ -73,12 +73,15 @@ for (let a = 0; a < amount; a++) {
         }
     }
 
+    for (let i = 0; i < size; i++) {
+        console.log(field[i]);}
+
     if (count == 10) {
         a--;
     }
 
     allWords.splice(number, 1);//удаление слова из исходного массива
-    //console.log(allWords, allWords.length); //оставшиеся слова
+    console.log(allWords, allWords.length); //оставшиеся слова
 }
 
 for (let i = 0; i < size; i++) {
